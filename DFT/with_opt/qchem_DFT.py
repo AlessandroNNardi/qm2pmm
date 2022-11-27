@@ -5,8 +5,16 @@ A simple script for the extraction of unperturbed properties
 from a DFT calculation made with QChem software.
 Here the input requests in QChem .inp file:
 $rem
+JOBTYPE Opt
+METHOD CAM-B3LYP
+BASIS 6-311++G(2d,2p)
+$end
+
+@@@
+
+$rem
 METHOD           CAM-B3LYP
-CIS_N_ROOTS      5
+CIS_N_ROOTS      2
 CIS_SINGLETS     true
 CIS_TRIPLETS     false
 SYMMETRY         FALSE
@@ -20,6 +28,10 @@ MOLDEN_FORMAT true
 NTO_PAIRS 3
 ESP_GRID -3
 $end
+
+$molecule
+read
+$end
 '''
 
 
@@ -30,16 +42,20 @@ Insert below:
 - n_es      = number of excited states
 '''
 
-filename = 'gua_n_CAM_esp_norelax.log'
+filename = 'opt_prova_extr.log'
 
 n_at = 16
-n_es = 5
+n_es = 2
 n_tr = int( (n_es)*(n_es - 1) / 2 )
 
 
 '''
 Key lines to extract properties
 '''
+opt_geometry_line = 'OPTIMIZATION CONVERGED'
+sym2mass = {'H':1.0, 'C':12.0, 'N':14.0, 'O':16.0} 
+geom = np.zeros((n_at, 4))
+
 gs_energy_line = 'Total energy in the final basis set'
 es_energy_line = 'Total energy for state'
 energies = []
@@ -66,7 +82,23 @@ file opening and extraction
 with open(filename, 'r') as log:
 
     for line in log:
+
+        # **** Optimized geometry section ****
         
+        if opt_geometry_line in line:
+
+            for i in range(4):
+                next(log)
+
+            for i in range(n_at):
+                
+                geom_line = next(log).split()
+
+                geom[i, 0] = sym2mass[geom_line[1]]
+                geom[i, 1:] = [float(j) for j in geom_line[2:]]
+
+            # print(geom)
+
         # **** Energy section ****
 
         if gs_energy_line in line:
@@ -177,6 +209,8 @@ with open(filename, 'r') as log:
 log.close()
 
 print('------------------------------------------------------------------- \n')
+print('Optimized geometry: \n', geom)
+print('------------------------------------------------------------------- \n')
 print('Energy of states: \n', energies)
 print('------------------------------------------------------------------- \n')
 print('Electric dipole moment matrix: \n', dipole_moms)
@@ -187,6 +221,7 @@ print('------------------------------------------------------------------- \n')
 '''
 Saving unperturbed properties to files 
 '''
+np.savetxt('opt_geom.pmm', geom, fmt='%.10f')
 
 np.savetxt('energies.pmm', energies, fmt='%.6f')
 

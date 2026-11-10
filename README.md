@@ -10,27 +10,20 @@
  
 In the Perturbed Matrix Method, the electronic properties of a quantum centre (QC) are first computed in isolation, the *unperturbed* reference. They are then perturbed by the electrostatic field of the surrounding environment, typically sampled from classical molecular dynamics. The unperturbed quantities usually include:
 
-- Geometry of the QC reference structure
-* **-g** : QC reference geometry input file. Each line should be formatted as:
+- Cartesian geometry of the QC reference structure. Each line should be formatted as:
 ```
 <atom symbol> <x> <y> <z> 
 ```
-- Permanent dipole moments of each state and transition dipole moments between states
-* **-dm** : electric dipole matrix file (in a.u.). Each line should be formatted as:
-
+- Permanent dipole moments of each state and transition dipole moments between states. They should be stored in the electric dipole matrix file (in a.u.). Each line should be formatted as:
 ```
 <state_n> <state_m> <x> <y> <z>
 ```
-where <state_n> and <state_m> are the indices of the n-th and m-th electronic state
-- Electronic state energies (ground and excited states)
-* **-e** : electronic energies file (in a.u.). Each line should be formatted as:
-
+where <state_n> and <state_m> are the indices of the n-th and m-th electronic state.
+- Electronic state energies (ground and excited states) (in a.u.). Each line should be formatted as:
 ```
 <state_n energy>
 ```
-
-* -ch : file containing QC atomic charges for each electronic state. It should be formatted as follows:
-
+- QC atomic charges for each electronic state. It should be formatted as follows:
 ```
 <atom1 state1 charge> <atom2 state1 charge> ...
 <atom1 state2 charge> <atom2 state2 charge> ...

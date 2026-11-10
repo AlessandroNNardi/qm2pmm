@@ -2,7 +2,7 @@
 
 **Extract unperturbed quantum-centre properties from electronic structure outputs for PMM and PyMM calculations.**
 
-`qm2pmm` is a collection of scripts that parse the output of common quantum chemistry packages and convert the unperturbed (gas-phase) properties of a quantum centre into the input format required by the Perturbed Matrix Method (PMM) and its Python implementation, PyMM.
+`qm2pmm` is a collection of scripts that parse the output of common quantum chemistry packages and convert the unperturbed (gas-phase) properties of a quantum centre into the input format required by the Perturbed Matrix Method (PMM) [[1]](#pmm) and its Python implementation, PyMM [[2]](#pymm-article).
 
 ---
  
@@ -25,3 +25,15 @@ Collecting these quantities by hand from different QM codes is tedious and error
 - NumPy <!-- TODO: list actual dependencies -->
 
 ## Installation
+
+## Glossary
+
+* **Quantum center** (QC): portion of the system described at quantum-mechanical level.
+<br></br>
+
+## References
+<a id="pmm">[1]</a>
+Aschi, M., Spezia, R., Di Nola, A., and Amadei, A. (2001). A first-principles method to model perturbed electronic wavefunctions: the effect of an external homogeneous electric field. _Chemical physics letters_, 344(3-4), 374-380, https://doi.org/10.1016/S0009-2614(01)00638-8.
+
+<a id="pymm-article">[2]</a>
+Chen, C. G., Nardi, A. N., Amadei, A., and D’Abramo M. _Journal of Chemical Theory and Computation_, __Article ASAP__, https://doi.org/10.1021/acs.jctc.2c00767.
